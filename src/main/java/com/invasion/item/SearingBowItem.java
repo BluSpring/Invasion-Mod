@@ -6,8 +6,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.BowItem;
-import net.minecraft.world.item.Item.Properties;
-import net.minecraft.world.item.ItemStack;
 
 public class SearingBowItem extends BowItem {
     static final float SEARING_ACTIVATION_PULL_PERCENTAGE = 3.8F;
@@ -30,10 +28,5 @@ public class SearingBowItem extends BowItem {
                 p.setBaseDamage((p.getBaseDamage() + 1) * 1.5F + 1);
             }
         }
-    }
-
-    @Override
-    protected int getDurabilityUse(ItemStack projectile) {
-        return 0;
     }
 }
