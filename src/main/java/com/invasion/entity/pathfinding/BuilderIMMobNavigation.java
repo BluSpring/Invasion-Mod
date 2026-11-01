@@ -22,8 +22,8 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.CollisionGetter;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.LadderBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.pathfinder.Node;
 import net.minecraft.world.level.pathfinder.NodeEvaluator;
 import net.minecraft.world.level.pathfinder.Path;
@@ -278,8 +278,8 @@ public class BuilderIMMobNavigation extends IMMobNavigation {
             }
 
             BlockState stateAtNode = level.getBlockState(previousNodePosition);
-            if (PathingUtil.isLadder(stateAtNode)) {
-                return stateAtNode.getValue(LadderBlock.FACING);
+            if (PathingUtil.isLadder(stateAtNode) && stateAtNode.hasProperty(BlockStateProperties.FACING)) {
+                return stateAtNode.getValue(BlockStateProperties.FACING);
             }
             return Direction.UP;
         }
