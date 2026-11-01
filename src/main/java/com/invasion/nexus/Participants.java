@@ -5,24 +5,23 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
-import org.jetbrains.annotations.Nullable;
-
 import com.invasion.BountyHunter;
 import com.invasion.InvasionMod;
+import org.jetbrains.annotations.Nullable;
 
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.world.entity.EntitySelector;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.Component;
-import net.minecraft.ChatFormatting;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.EntitySelector;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
 
 public class Participants {
@@ -49,6 +48,7 @@ public class Participants {
                     }
                     return new Entry(now, player.getUUID());
                 }
+                oldEntry.time = now;
                 return oldEntry;
             });
         }
