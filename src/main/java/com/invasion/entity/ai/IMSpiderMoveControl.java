@@ -1,3 +1,5 @@
+// TODO(Ravel): Failed to fully resolve file: null cannot be cast to non-null type com.intellij.psi.PsiJavaCodeReferenceElement
+
 package com.invasion.entity.ai;
 
 import java.util.Optional;
@@ -5,13 +7,11 @@ import java.util.Optional;
 import com.invasion.entity.NexusSpiderEntity;
 import com.invasion.util.math.PosUtils;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.ai.pathing.Path;
-import net.minecraft.entity.ai.pathing.PathNode;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.Vec3i;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.Vec3i;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.pathfinder.Path;
 
 public class IMSpiderMoveControl extends ClimbableMoveControl {
     private static final Direction[] DIRECTIONS = Direction.values();

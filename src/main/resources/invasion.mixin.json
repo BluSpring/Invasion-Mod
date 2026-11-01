@@ -6,10 +6,10 @@
     "compatibilityLevel": "JAVA_16",
     "mixins": [
       "EntityMixin",
-      "PathNodeMixin"
+      "NodeMixin"
     ],
     "client": [
       "client.DebugRendererMixin",
-      "client.PathfindingDebugRendererMixin"
+      "client.PathfindingRendererMixin"
     ]
 }

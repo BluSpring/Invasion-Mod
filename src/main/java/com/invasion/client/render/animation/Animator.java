@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 import org.joml.Vector3f;
 import org.joml.Vector3fc;
 
-import net.minecraft.client.model.ModelPart;
+import net.minecraft.client.model.geom.ModelPart;
 
 public class Animator<T extends Enum<T>> {
     private final List<Part> parts;
@@ -91,17 +91,17 @@ public class Animator<T extends Enum<T>> {
             float r = dtPrev / dtFrame;
 
             Vector3fc rotation = KeyFrame.lerp(r, prevFrame.rotation(), nextFrame.rotation(), TEMP_VECTOR);
-            part.pitch = rotation.x();
-            part.yaw = rotation.y();
-            part.roll = rotation.z();
+            part.xRot = rotation.x();
+            part.yRot = rotation.y();
+            part.zRot = rotation.z();
 
             if (prevFrame.hasPos()) {
                 Vector3fc pivot = nextFrame.hasPos()
                         ? KeyFrame.lerp(r, prevFrame.pivot(), nextFrame.pivot(), TEMP_VECTOR)
                         : prevFrame.pivot();
-                part.pivotX = pivot.x();
-                part.pivotY = pivot.y();
-                part.pivotZ = pivot.z();
+                part.x = pivot.x();
+                part.y = pivot.y();
+                part.z = pivot.z();
             }
         }
     }

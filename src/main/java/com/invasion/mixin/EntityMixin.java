@@ -1,12 +1,12 @@
 package com.invasion.mixin;
 
+import com.invasion.nexus.Combatant;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import com.invasion.nexus.Combatant;
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 
 @Mixin(Entity.class)
 abstract class EntityMixin {

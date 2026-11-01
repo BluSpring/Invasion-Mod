@@ -7,36 +7,37 @@ import com.invasion.entity.ai.goal.AttackNexusGoal;
 import com.invasion.entity.ai.goal.GoToNexusGoal;
 import com.invasion.entity.ai.goal.MineBlockGoal;
 import com.invasion.entity.ai.goal.MobMeleeAttackGoal;
-import com.invasion.entity.ai.goal.SprintGoal;
-import com.invasion.entity.ai.goal.target.CustomRangeActiveTargetGoal;
-import com.invasion.entity.ai.goal.target.RetaliateGoal;
-import com.invasion.entity.ai.goal.StoopGoal;
-import com.invasion.entity.ai.goal.ProvideSupportGoal;
 import com.invasion.entity.ai.goal.NoNexusPathGoal;
 import com.invasion.entity.ai.goal.PredicatedGoal;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.ai.goal.LookAroundGoal;
-import net.minecraft.entity.ai.goal.LookAtEntityGoal;
-import net.minecraft.entity.ai.goal.SwimGoal;
-import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.mob.ZombieEntity;
-import net.minecraft.entity.passive.IronGolemEntity;
-import net.minecraft.entity.passive.MerchantEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.Text;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import com.invasion.entity.ai.goal.ProvideSupportGoal;
+import com.invasion.entity.ai.goal.SprintGoal;
+import com.invasion.entity.ai.goal.StoopGoal;
+import com.invasion.entity.ai.goal.target.CustomRangeActiveTargetGoal;
+import com.invasion.entity.ai.goal.target.RetaliateGoal;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.animal.IronGolem;
+import net.minecraft.world.entity.monster.Zombie;
+import net.minecraft.world.entity.npc.AbstractVillager;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 
 public class EntityIMZombie extends AbstractIMZombieEntity {
     static final int OLD_ZOMBIE = 0;
@@ -53,82 +54,82 @@ public class EntityIMZombie extends AbstractIMZombieEntity {
     protected int selfDamage = 2;
     protected int maxSelfDamage = 6;
 
-    private static DefaultAttributeContainer.Builder createBaseAttributes() {
-        return ZombieEntity.createZombieAttributes()
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.19F)
-                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 4.0);
+    private static AttributeSupplier.Builder createBaseAttributes() {
+        return Zombie.createAttributes()
+                .add(Attributes.MOVEMENT_SPEED, 0.19F)
+                .add(Attributes.ATTACK_DAMAGE, 4.0);
     }
 
-    public static DefaultAttributeContainer.Builder createTierT1V0Attributes() {
-        return createBaseAttributes().add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 4.0);
+    public static AttributeSupplier.Builder createTierT1V0Attributes() {
+        return createBaseAttributes().add(Attributes.ATTACK_DAMAGE, 4.0);
     }
 
-    public static DefaultAttributeContainer.Builder createTierT1V1Attributes() {
-        return createBaseAttributes().add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 6.0);
+    public static AttributeSupplier.Builder createTierT1V1Attributes() {
+        return createBaseAttributes().add(Attributes.ATTACK_DAMAGE, 6.0);
     }
 
-    public static DefaultAttributeContainer.Builder createTierT2V0Attributes() {
-        return createBaseAttributes().add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 7.0);
+    public static AttributeSupplier.Builder createTierT2V0Attributes() {
+        return createBaseAttributes().add(Attributes.ATTACK_DAMAGE, 7.0);
     }
 
-    public static DefaultAttributeContainer.Builder createTierT2V1Attributes() {
-        return createBaseAttributes().add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 10.0);
+    public static AttributeSupplier.Builder createTierT2V1Attributes() {
+        return createBaseAttributes().add(Attributes.ATTACK_DAMAGE, 10.0);
     }
 
     /**
      * Tar Zombie
      */
-    public static DefaultAttributeContainer.Builder createTierT2V2ttributes() {
-        return createBaseAttributes().add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5.0);
+    public static AttributeSupplier.Builder createTierT2V2ttributes() {
+        return createBaseAttributes().add(Attributes.ATTACK_DAMAGE, 5.0);
     }
     /**
      * Zombie Pigman
      */
-    public static DefaultAttributeContainer.Builder createTierT2V3ttributes() {
+    public static AttributeSupplier.Builder createTierT2V3ttributes() {
         return createBaseAttributes()
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25F)
-                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 8.0);
+                .add(Attributes.MOVEMENT_SPEED, 0.25F)
+                .add(Attributes.ATTACK_DAMAGE, 8.0);
     }
     /**
      * Zombie Brute
      */
-    public static DefaultAttributeContainer.Builder createTierT3V0Attributes() {
+    public static AttributeSupplier.Builder createTierT3V0Attributes() {
         return createBaseAttributes()
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.17F)
-                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 18.0);
+                .add(Attributes.MOVEMENT_SPEED, 0.17F)
+                .add(Attributes.ATTACK_DAMAGE, 18.0);
     }
 
-    public EntityIMZombie(EntityType<EntityIMZombie> type, World world) {
+    public EntityIMZombie(EntityType<EntityIMZombie> type, Level world) {
         super(type, world, 2F);
     }
 
     @Override
-    protected void initGoals() {
-        goalSelector.add(0, new PredicatedGoal(new SwimGoal(this), () -> getTier() != 2 || getFlavour() != 2));
-        goalSelector.add(0, new MineBlockGoal(this));
-        goalSelector.add(1, new AttackNexusGoal<>(this));
-        goalSelector.add(3, new ProvideSupportGoal(this, 4, true));
-        goalSelector.add(3, new PredicatedGoal(new SprintGoal<>(this), () -> getTier() == 3));
-        goalSelector.add(4, new PredicatedGoal(new StoopGoal(this), () -> getTier() == 3));
-        goalSelector.add(5, new GoToNexusGoal(this));
-        goalSelector.add(6, new MobMeleeAttackGoal(this, 1.3F, false));
-        goalSelector.add(7, new WanderAroundFarGoal(this, 1));
-        goalSelector.add(7, new LookAtEntityGoal(this, PlayerEntity.class, 8));
-        goalSelector.add(8, new LookAtEntityGoal(this, IMCreeperEntity.class, 12));
-        goalSelector.add(8, new LookAroundGoal(this));
+    protected void registerGoals() {
+        goalSelector.addGoal(0, new PredicatedGoal(new FloatGoal(this), () -> getTier() != 2 || getFlavour() != 2));
+        goalSelector.addGoal(0, new MineBlockGoal(this));
+        goalSelector.addGoal(1, new AttackNexusGoal<>(this));
+        goalSelector.addGoal(3, new ProvideSupportGoal(this, 4, true));
+        goalSelector.addGoal(3, new PredicatedGoal(new SprintGoal<>(this), () -> getTier() == 3));
+        goalSelector.addGoal(4, new PredicatedGoal(new StoopGoal(this), () -> getTier() == 3));
+        goalSelector.addGoal(5, new GoToNexusGoal(this));
+        goalSelector.addGoal(6, new MobMeleeAttackGoal(this, 1.3F, false));
+        goalSelector.addGoal(7, new WaterAvoidingRandomStrollGoal(this, 1));
+        goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 8));
+        goalSelector.addGoal(8, new LookAtPlayerGoal(this, IMCreeperEntity.class, 12));
+        goalSelector.addGoal(8, new RandomLookAroundGoal(this));
 
-        targetSelector.add(0, new RetaliateGoal(this));
-        targetSelector.add(1, new PredicatedGoal(new CustomRangeActiveTargetGoal<>(this, PlayerEntity.class, this::getSenseRange, false), () -> getTier() != 3));
-        targetSelector.add(2, new CustomRangeActiveTargetGoal<>(this, PlayerEntity.class, this::getAggroRange, true));
-        targetSelector.add(3, new PredicatedGoal(new CustomRangeActiveTargetGoal<>(this, PigmanEngineerEntity.class, 3.5F), () -> getTier() != 3 && NoNexusPathGoal.isLostPathToNexus(this)));
-        targetSelector.add(4, new CustomRangeActiveTargetGoal<>(this, MerchantEntity.class, this::getAggroRange, true));
-        targetSelector.add(4, new CustomRangeActiveTargetGoal<>(this, IronGolemEntity.class, this::getAggroRange, true));
+        targetSelector.addGoal(0, new RetaliateGoal(this));
+        targetSelector.addGoal(1, new PredicatedGoal(new CustomRangeActiveTargetGoal<>(this, Player.class, this::getSenseRange, false), () -> getTier() != 3));
+        targetSelector.addGoal(2, new CustomRangeActiveTargetGoal<>(this, Player.class, this::getAggroRange, true));
+        targetSelector.addGoal(3, new PredicatedGoal(new CustomRangeActiveTargetGoal<>(this, PigmanEngineerEntity.class, 3.5F), () -> getTier() != 3 && NoNexusPathGoal.isLostPathToNexus(this)));
+        targetSelector.addGoal(4, new CustomRangeActiveTargetGoal<>(this, AbstractVillager.class, this::getAggroRange, true));
+        targetSelector.addGoal(4, new CustomRangeActiveTargetGoal<>(this, IronGolem.class, this::getAggroRange, true));
     }
 
     @Override
     public void tick() {
         super.tick();
-        if (!getWorld().isClient && flammability >= 20 && isOnFire()) {
+        if (!level().isClientSide && flammability >= 20 && isOnFire()) {
             doFireball();
         }
     }
@@ -142,14 +143,14 @@ public class EntityIMZombie extends AbstractIMZombieEntity {
     }
 
     @Override
-    protected Text getDefaultName() {
+    protected Component getTypeName() {
         if (isTar()) {
-            return Text.translatable(getType().getUntranslatedName() + ".tar");
+            return Component.translatable(getType().toShortString() + ".tar");
         }
         if (isPigman()) {
-            return Text.translatable(getType().getUntranslatedName() + ".pigman");
+            return Component.translatable(getType().toShortString() + ".pigman");
         }
-        return super.getDefaultName();
+        return super.getTypeName();
     }
 
     @Override
@@ -166,8 +167,8 @@ public class EntityIMZombie extends AbstractIMZombieEntity {
                 getNavigatorNew().setCanDestroyBlocks(true);
             } else if (getFlavour() == 1) {
                 setAttackStrength(6);
-                setStackInHand(Hand.MAIN_HAND, Items.WOODEN_SWORD.getDefaultStack());
-                setEquipmentDropChance(EquipmentSlot.MAINHAND, 0.2F);
+                setItemInHand(InteractionHand.MAIN_HAND, Items.WOODEN_SWORD.getDefaultInstance());
+                setDropChance(EquipmentSlot.MAINHAND, 0.2F);
                 getNavigatorNew().setCanDestroyBlocks(false);
             }
         } else if (getTier() == 2) {
@@ -177,15 +178,15 @@ public class EntityIMZombie extends AbstractIMZombieEntity {
                 selfDamage = 4;
                 maxSelfDamage = 12;
                 flammability = 4;
-                equipStack(EquipmentSlot.CHEST, Items.IRON_CHESTPLATE.getDefaultStack());
-                setEquipmentDropChance(EquipmentSlot.CHEST, 0.25F);
+                setItemSlot(EquipmentSlot.CHEST, Items.IRON_CHESTPLATE.getDefaultInstance());
+                setDropChance(EquipmentSlot.CHEST, 0.25F);
                 getNavigatorNew().setCanDestroyBlocks(true);
             } else if (getFlavour() == 1) {
                 setAttackStrength(10);
                 selfDamage = 3;
                 maxSelfDamage = 9;
-                setStackInHand(Hand.MAIN_HAND, Items.IRON_SWORD.getDefaultStack());
-                setEquipmentDropChance(EquipmentSlot.MAINHAND, 0.25F);
+                setItemInHand(InteractionHand.MAIN_HAND, Items.IRON_SWORD.getDefaultInstance());
+                setDropChance(EquipmentSlot.MAINHAND, 0.25F);
                 getNavigatorNew().setCanDestroyBlocks(false);
             }
         }
@@ -202,8 +203,8 @@ public class EntityIMZombie extends AbstractIMZombieEntity {
             setBaseMovementSpeed(0.25F);
             setAttackStrength(8);
             setFireImmune(true);
-            setStackInHand(Hand.MAIN_HAND, Items.GOLDEN_SWORD.getDefaultStack());
-            setEquipmentDropChance(EquipmentSlot.MAINHAND, 0.2F);
+            setItemInHand(InteractionHand.MAIN_HAND, Items.GOLDEN_SWORD.getDefaultInstance());
+            setDropChance(EquipmentSlot.MAINHAND, 0.2F);
             getNavigatorNew().setCanDestroyBlocks(true);
         }
 
@@ -213,8 +214,8 @@ public class EntityIMZombie extends AbstractIMZombieEntity {
             selfDamage = 4;
             maxSelfDamage = 20;
             flammability = 4;
-            equipStack(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
-            setEquipmentDropChance(EquipmentSlot.MAINHAND, 0);
+            setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
+            setDropChance(EquipmentSlot.MAINHAND, 0);
             getNavigatorNew().setCanDestroyBlocks(true);
         }
     }
@@ -225,17 +226,17 @@ public class EntityIMZombie extends AbstractIMZombieEntity {
             case 2 -> switch(getFlavour()) {
                 case 2 -> TAR;
                 case 3 -> ZOMBIE_PIGMAN;
-                default -> (((int)(Math.abs(getUuid().getLeastSignificantBits()) % 2)) + 1) * 2; //2,4
+                default -> (((int)(Math.abs(getUUID().getLeastSignificantBits()) % 2)) + 1) * 2; //2,4
             };
             case 3 -> BRUTE;
-            default -> (int)(Math.abs(getUuid().getLeastSignificantBits()) % 2); // 0,1
+            default -> (int)(Math.abs(getUUID().getLeastSignificantBits()) % 2); // 0,1
         };
     }
 
     @Override
     protected void sunlightDamageTick() {
         if (isTar()) {
-            damage(getDamageSources().generic(), 3);
+            hurt(damageSources().generic(), 3);
         } else {
             super.sunlightDamageTick();
         }
@@ -252,30 +253,30 @@ public class EntityIMZombie extends AbstractIMZombieEntity {
             return getRandom().nextInt(3) == 0 ? InvSounds.ENTITY_BIG_ZOMBIE_AMBIENT : null;
         }
 
-        return SoundEvents.ENTITY_ZOMBIE_AMBIENT;
+        return SoundEvents.ZOMBIE_AMBIENT;
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource source) {
-        return SoundEvents.ENTITY_ZOMBIE_HURT;
+        return SoundEvents.ZOMBIE_HURT;
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_ZOMBIE_DEATH;
+        return SoundEvents.ZOMBIE_DEATH;
     }
 
     private void doFireball() {
-        for (BlockPos pos : BlockPos.iterateOutwards(getBlockPos(), 2, 2, 2)) {
-            if (getWorld().isAir(pos) && getWorld().getBlockState(pos.down()).isBurnable()) {
-                getWorld().setBlockState(pos, Blocks.FIRE.getDefaultState());
+        for (BlockPos pos : BlockPos.withinManhattan(blockPosition(), 2, 2, 2)) {
+            if (level().isEmptyBlock(pos) && level().getBlockState(pos.below()).ignitedByLava()) {
+                level().setBlockAndUpdate(pos, Blocks.FIRE.defaultBlockState());
             }
         }
 
-        List<Entity> entities = getWorld().getOtherEntities(this, getBoundingBox().expand(1.5, 1.5, 1.5));
+        List<Entity> entities = level().getEntities(this, getBoundingBox().inflate(1.5, 1.5, 1.5));
         for (int el = entities.size() - 1; el >= 0; el--) {
-            entities.get(el).setFireTicks(8);
+            entities.get(el).setRemainingFireTicks(8);
         }
-        damage(getDamageSources().explosion(this, this), 500);
+        hurt(damageSources().explosion(this, this), 500);
     }
 }

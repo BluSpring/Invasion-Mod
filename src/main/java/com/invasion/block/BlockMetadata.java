@@ -1,3 +1,5 @@
+// TODO(Ravel): Failed to fully resolve file: null cannot be cast to non-null type com.intellij.psi.PsiJavaCodeReferenceElement
+
 package com.invasion.block;
 
 import java.util.ArrayList;
@@ -8,17 +10,18 @@ import java.util.function.Predicate;
 import com.invasion.InvTags;
 import com.invasion.InvasionMod;
 
+import net.minecraft.Util;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.level.CollisionGetter;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.PushReaction;
+
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.piston.PistonBehavior;
-import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.registry.tag.TagKey;
-import net.minecraft.util.Util;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.world.CollisionView;
 
 public class BlockMetadata {
     public static final float AIR_STRENGTH = 0.01F;
@@ -136,21 +139,21 @@ public class BlockMetadata {
     );
 
     public static boolean isIndestructible(BlockState state) {
-        return state.getBlock().getHardness() < 0
-                || state.getPistonBehavior() == PistonBehavior.BLOCK
+        return state.getBlock().defaultDestroyTime() < 0
+                || state.getPistonPushReaction() == PushReaction.BLOCK
                 || UNDESTRUCTABLE_BLOCKS.contains(state.getBlock())
-                || state.isIn(ConventionalBlockTags.RELOCATION_NOT_SUPPORTED);
+                || state.is(ConventionalBlockTags.RELOCATION_NOT_SUPPORTED);
     }
 
     public static Optional<Float> getCost(BlockState state) {
         return InvasionMod.getConfig().getBlockCost(state.getBlock()).or(() -> BLOCK_COSTS.get(state));
     }
 
-    public static float getStrength(BlockPos pos, BlockState state, CollisionView world) {
+    public static float getStrength(BlockPos pos, BlockState state, CollisionGetter world) {
         int bonus = 0;
-        BlockPos.Mutable mutable = pos.mutableCopy();
+        BlockPos.MutableBlockPos mutable = pos.mutable();
         float strength = InvasionMod.getConfig().getBlockStrength(state.getBlock())
-                .orElseGet(() -> BLOCK_STRENGTHS.get(state).orElse(state.getHardness(world, pos)));
+                .orElseGet(() -> BLOCK_STRENGTHS.get(state).orElse(state.getDestroySpeed(world, pos)));
         switch (BlockSpecial.of(state)) {
             case CONSTRUCTION_BRICKS:
                 for (Direction direction : Direction.values()) {

@@ -6,12 +6,11 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
+import com.invasion.util.math.DistanceComparators;
 import org.jetbrains.annotations.Nullable;
 
-import com.invasion.util.math.DistanceComparators;
-
-import net.minecraft.entity.mob.PathAwareEntity;
-import net.minecraft.util.math.Box;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.phys.AABB;
 
 public class Combatants implements Iterable<Combatant<?>> {
     private List<Combatant<?>> mobList = new ArrayList<>();
@@ -22,12 +21,12 @@ public class Combatants implements Iterable<Combatant<?>> {
 
     public Combatants(Nexus nexus) {
         this.nexus = nexus;
-        this.sorter = Comparator.comparing(Combatant::asEntity, DistanceComparators.ofComparisonEntities(nexus.getOrigin().toCenterPos()));
+        this.sorter = Comparator.comparing(Combatant::asEntity, DistanceComparators.ofComparisonEntities(nexus.getOrigin().getCenter()));
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    public void updateMobList(Box arena) {
-        mobList = (List)nexus.getWorld().getEntitiesByClass(PathAwareEntity.class, arena, Combatant.PREDICATE);
+    public void updateMobList(AABB arena) {
+        mobList = (List)nexus.getWorld().getEntitiesOfClass(PathfinderMob.class, arena, Combatant.PREDICATE);
         sorted = false;
     }
 

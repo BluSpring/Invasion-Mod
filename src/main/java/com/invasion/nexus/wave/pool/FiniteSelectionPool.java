@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
 
-import net.minecraft.util.math.random.Random;
+import net.minecraft.util.RandomSource;
 
 class FiniteSelectionPool<T> implements Select<T> {
 	private final List<Entry<T>> currentPool;
@@ -20,7 +20,7 @@ class FiniteSelectionPool<T> implements Select<T> {
 
 	@Nullable
 	@Override
-    public T selectNext(Random random) {
+    public T selectNext(RandomSource random) {
 		if (totalAmount < 1) {
 			reset();
 		}
@@ -65,7 +65,7 @@ class FiniteSelectionPool<T> implements Select<T> {
 	    }
 
         @Override
-        public T selectNext(Random random) {
+        public T selectNext(RandomSource random) {
             amount--;
             return value.selectNext(random);
         }

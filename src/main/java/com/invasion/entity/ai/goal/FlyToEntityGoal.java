@@ -2,27 +2,26 @@ package com.invasion.entity.ai.goal;
 
 import java.util.EnumSet;
 
-import org.jetbrains.annotations.Nullable;
-
 import com.invasion.entity.EntityIMFlying;
 import com.invasion.entity.HasAiGoals;
 import com.invasion.entity.pathfinding.FlyingNavigation;
+import org.jetbrains.annotations.Nullable;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.ai.pathing.Path;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.level.pathfinder.Path;
 
 public class FlyToEntityGoal extends Goal {
     private final EntityIMFlying theEntity;
 
     public FlyToEntityGoal(EntityIMFlying entity) {
         theEntity = entity;
-        setControls(EnumSet.of(Control.MOVE));
+        setFlags(EnumSet.of(Flag.MOVE));
     }
 
     @Override
-    public boolean canStart() {
+    public boolean canUse() {
         return theEntity.hasGoal(HasAiGoals.Goal.GOTO_ENTITY) && theEntity.getTarget() != null;
     }
 
@@ -34,8 +33,8 @@ public class FlyToEntityGoal extends Goal {
             nav.stop();
             nav.setMovementType(FlyingNavigation.MoveType.PREFER_WALKING);
             @Nullable
-            Path path = theEntity.getNavigation().findPathTo(target, MathHelper.ceil(2 * theEntity.distanceTo(target)));
-            if (path != null && path.getLength() > 2 * theEntity.distanceTo(target)) {
+            Path path = theEntity.getNavigation().createPath(target, Mth.ceil(2 * theEntity.distanceTo(target)));
+            if (path != null && path.getNodeCount() > 2 * theEntity.distanceTo(target)) {
                 nav.setMovementType(FlyingNavigation.MoveType.MIXED);
             }
             theEntity.getNavigatorNew().autoPathToEntity(target);

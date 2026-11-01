@@ -1,20 +1,20 @@
 package com.invasion;
 
-import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.invasion.block.InvBlocks;
 import com.invasion.entity.InvEntities;
 import com.invasion.item.InvItems;
 import com.invasion.nexus.WorldNexusStorage;
 import com.invasion.particle.InvParticles;
+import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import net.minecraft.resources.ResourceLocation;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.util.Identifier;
 
 public class InvasionMod implements ModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger(InvasionMod.class);
@@ -31,8 +31,8 @@ public class InvasionMod implements ModInitializer {
         return CONFIG;
     }
 
-    public static Identifier id(String name) {
-        return Identifier.of("invmod", name);
+    public static ResourceLocation id(String name) {
+        return ResourceLocation.fromNamespaceAndPath("invmod", name);
     }
 
     @Override

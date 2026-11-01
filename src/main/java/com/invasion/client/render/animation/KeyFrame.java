@@ -1,7 +1,5 @@
 package com.invasion.client.render.animation;
 
-import net.minecraft.util.math.MathHelper;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -9,6 +7,8 @@ import java.util.ListIterator;
 
 import org.joml.Vector3f;
 import org.joml.Vector3fc;
+
+import net.minecraft.util.Mth;
 
 public record KeyFrame(
         float time,
@@ -19,11 +19,11 @@ public record KeyFrame(
     static final Vector3fc ZERO_VECTOR = new Vector3f(0, 0, 0);
 
 	public KeyFrame(float time, float rotX, float rotY, float rotZ, InterpType interpType) {
-		this(time, new Vector3f(rotX, rotY, rotZ).mul(MathHelper.RADIANS_PER_DEGREE), ZERO_VECTOR, interpType, false);
+		this(time, new Vector3f(rotX, rotY, rotZ).mul(Mth.DEG_TO_RAD), ZERO_VECTOR, interpType, false);
 	}
 
 	public KeyFrame(float time, float rotX, float rotY, float rotZ, float posX, float posY, float posZ, InterpType interpType) {
-	    this(time, new Vector3f(rotX, rotY, rotZ).mul(MathHelper.RADIANS_PER_DEGREE), new Vector3f(posX, posY, posZ), interpType, true);
+	    this(time, new Vector3f(rotX, rotY, rotZ).mul(Mth.DEG_TO_RAD), new Vector3f(posX, posY, posZ), interpType, true);
 	}
 
 	@Deprecated
@@ -92,7 +92,7 @@ public record KeyFrame(
 			buffer.add(currFrame);
 		}
 		KeyFrame fencepostStart;
-		if (!MathHelper.approximatelyEquals(currFrame.time(), k1)) {
+		if (!Mth.equal(currFrame.time(), k1)) {
 			iter.previous();
 			KeyFrame prev = iter.previous();
 

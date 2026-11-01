@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
 
-import net.minecraft.util.math.Direction;
+import net.minecraft.core.Direction;
 
 public enum PathAction {
     NONE(Type.NONE, null),
@@ -31,11 +31,11 @@ public enum PathAction {
     );
 
     public static PathAction getLadderActionForDirection(Direction direction) {
-        return LADDER_ACTIONS.get(direction.getHorizontal());
+        return LADDER_ACTIONS.get(direction.get2DDataValue());
     }
 
     public static PathAction getTowerActionForDirection(Direction direction) {
-        return TOWER_ACTIONS.get(direction.getHorizontal());
+        return TOWER_ACTIONS.get(direction.get2DDataValue());
     }
 
     public static PathAction getClimbing(Direction direction) {

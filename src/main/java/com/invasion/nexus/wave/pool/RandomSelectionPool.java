@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.invasion.InvasionMod;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.util.RandomSource;
 
 record RandomSelectionPool<T>(List<Entry<T>> pool, float totalWeight) implements Select<T> {
     @Override
-    public T selectNext(Random random) {
+    public T selectNext(RandomSource random) {
         float r = random.nextFloat() * totalWeight;
         for (Entry<T> entry : pool) {
             if (r < entry.weight()) {

@@ -5,8 +5,8 @@ import java.util.Objects;
 
 import com.invasion.Notifiable;
 import com.invasion.entity.Miner;
-import net.minecraft.block.BlockState;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.core.BlockPos;
 
 public class TerrainDigger implements ITerrainDig, Notifiable {
     private Miner digger;
@@ -32,7 +32,7 @@ public class TerrainDigger implements ITerrainDig, Notifiable {
     public boolean askClearPosition(BlockPos pos, Notifiable onFinished, float costMultiplier) {
         return this.modifier.requestTask(onFinished, this, Arrays.stream(digger.getBlockRemovalOrder(pos)).map(removal -> {
             BlockState state = digger.getTerrain().getBlockState(removal);
-            if (!state.isAir() && !state.blocksMovement() && digger.canClearBlock(removal)) {
+            if (!state.isAir() && !state.blocksMotion() && digger.canClearBlock(removal)) {
                 return ModifyBlockEntry.ofDeletion(removal, (int) (costMultiplier * digger.getBlockRemovalCost(removal) / digRate));
             }
 
