@@ -5,12 +5,12 @@ import com.invasion.entity.pathfinding.path.ActionablePathNode;
 import com.invasion.entity.pathfinding.path.PathAction;
 import com.invasion.nexus.ai.AttackerAI;
 
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.pathfinder.Node;
-import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.CollisionGetter;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.pathfinder.Node;
+import net.minecraft.world.level.pathfinder.PathType;
 
 public class ScaffoldNodeFactory implements DynamicPathNodeNavigator.NodeFactory {
     private static final int MIN_SCAFFOLD_HEIGHT = 4;
@@ -25,8 +25,8 @@ public class ScaffoldNodeFactory implements DynamicPathNodeNavigator.NodeFactory
 
     @Override
     public float getDistancePenalty(Node previousNode, Node nextNode, CollisionGetter world) {
-        PathAction action = ActionablePathNode.getAction(nextNode);
-        PathAction prevAction = ActionablePathNode.getAction(previousNode);
+        PathAction action = ActionablePathNode.invasion$getAction(nextNode);
+        PathAction prevAction = ActionablePathNode.invasion$getAction(previousNode);
         BlockState state = world.getBlockState(nextNode.asBlockPos());
         float materialMultiplier = state.isRedstoneConductor(world, nextNode.asBlockPos()) ? 2.2F : 1.0F;
         if (action == PathAction.SCAFFOLD_UP) {
@@ -53,7 +53,7 @@ public class ScaffoldNodeFactory implements DynamicPathNodeNavigator.NodeFactory
         BlockPos pos = node.asBlockPos();
         BlockPos positionAbove = pos.above();
         BlockState stateAbove = world.getBlockState(positionAbove);
-        if (ActionablePathNode.getAction(node.cameFrom) == PathAction.SCAFFOLD_UP && !nodeCache.avoidsBlock(world, positionAbove, stateAbove)) {
+        if (ActionablePathNode.invasion$getAction(node.cameFrom) == PathAction.SCAFFOLD_UP && !nodeCache.avoidsBlock(world, positionAbove, stateAbove)) {
             Node n = nodeCache.getNode(node.x, node.y + 1, node.z, PathAction.SCAFFOLD_UP);
             if (!n.closed) {
                 n.type = PathType.WALKABLE;

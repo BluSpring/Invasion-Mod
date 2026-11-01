@@ -139,7 +139,7 @@ public class FlyingNavigation extends IMNavigation {
 
                 }
 
-                if (ActionablePathNode.getAction(node) == PathAction.SWIM) {
+                if (ActionablePathNode.invasion$getAction(node) == PathAction.SWIM) {
                     multiplier *= (node.y <= prevNode.y && !terrainMap.getBlockState(node.asBlockPos().above()).isAir() ? 3 : 1);
                     return prevNode.distanceTo(node) * 1.3F * multiplier;
                 }

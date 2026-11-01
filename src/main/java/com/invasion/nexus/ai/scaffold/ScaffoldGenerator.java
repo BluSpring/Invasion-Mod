@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import org.jetbrains.annotations.Nullable;
 
 import com.invasion.entity.NexusEntity;
 import com.invasion.entity.pathfinding.DynamicPathNodeNavigator;
@@ -12,13 +11,14 @@ import com.invasion.entity.pathfinding.path.ActionablePathNode;
 import com.invasion.entity.pathfinding.path.PathAction;
 import com.invasion.nexus.ai.AttackerAI;
 import com.invasion.nexus.test.PathingDebugger;
+import org.jetbrains.annotations.Nullable;
 
-import net.minecraft.world.level.pathfinder.Path;
-import net.minecraft.world.level.pathfinder.Node;
-import net.minecraft.util.Tuple;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.util.Tuple;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.pathfinder.Node;
+import net.minecraft.world.level.pathfinder.Path;
 
 public class ScaffoldGenerator {
     private final ScaffoldNodeFactory nodeFactory;
@@ -90,10 +90,10 @@ public class ScaffoldGenerator {
         for (int i = 0; i < path.getNodeCount(); i++) {
             Node node = path.getNode(i);
             if (i == 0) {
-                if (ActionablePathNode.getAction(node) == PathAction.SCAFFOLD_UP) {
+                if (ActionablePathNode.invasion$getAction(node) == PathAction.SCAFFOLD_UP) {
                     startHeight = node.y - 1;
                 }
-            } else if (ActionablePathNode.getAction(node) != PathAction.SCAFFOLD_UP) {
+            } else if (ActionablePathNode.invasion$getAction(node) != PathAction.SCAFFOLD_UP) {
                 BlockPos pos = new BlockPos(node.cameFrom.x, startHeight, node.cameFrom.z);
                 scaffoldPositions.add(new ScaffoldNode(pos, calculateOrientation(entity.asEntity().level(), pos), node.y - startHeight));
             }

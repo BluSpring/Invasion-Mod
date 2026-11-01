@@ -3,7 +3,7 @@
     "minVersion": "0.7",
     "package": "com.invasion.mixin",
     "refmap": "invasion.mixin.refmap.json",
-    "compatibilityLevel": "JAVA_16",
+    "compatibilityLevel": "JAVA_21",
     "mixins": [
       "EntityMixin",
       "NodeMixin"
@@ -11,5 +11,8 @@
     "client": [
       "client.DebugRendererMixin",
       "client.PathfindingRendererMixin"
-    ]
+    ],
+    "mixinextras": {
+      "minVersion": "0.5.3"
+    }
 }

@@ -109,7 +109,7 @@ public class Actor<T extends Entity> implements IMPathNodeMaker {
             multiplier += 5;
         }
 
-        if (ActionablePathNode.getAction(node) == PathAction.SWIM) {
+        if (ActionablePathNode.invasion$getAction(node) == PathAction.SWIM) {
             multiplier *= node.y <= prevNode.y && !terrainMap.getBlockState(node.asBlockPos()).isAir() ? 3 : 1;
             return prevNode.distanceTo(node) * 1.3F * multiplier;
         }
@@ -126,7 +126,7 @@ public class Actor<T extends Entity> implements IMPathNodeMaker {
 
         calcPathOptionsVertical(terrainMap, currentNode, pathFinder);
 
-        PathAction action = ActionablePathNode.getAction(currentNode);
+        PathAction action = ActionablePathNode.invasion$getAction(currentNode);
 
         if (action == PathAction.DIG && !canStandAt(terrainMap, currentNode.asBlockPos())) {
             return;
@@ -194,7 +194,7 @@ public class Actor<T extends Entity> implements IMPathNodeMaker {
 
     protected void calcPathOptionsVertical(BlockGetter terrainMap, Node currentNode, PathBuilder pathFinder) {
         int collideUp = getNodeDestructability(terrainMap, currentNode.asBlockPos().above());
-        PathAction pathAction = ActionablePathNode.getAction(currentNode);
+        PathAction pathAction = ActionablePathNode.invasion$getAction(currentNode);
         if (collideUp > DestructableType.UNBREAKABLE) {
             BlockState state = terrainMap.getBlockState(currentNode.asBlockPos().above());
             if (state.is(BlockTags.CLIMBABLE)) {

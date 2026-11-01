@@ -46,7 +46,7 @@ abstract class PathfindingRendererMixin {
                 Node node = path.getNode(i);
                 if (distanceToCamera(node.asBlockPos(), cameraX, cameraY, cameraZ) <= 80) {
                     DebugRenderer.renderFloatingText(matrices, vertexConsumers,
-                            String.valueOf(ActionablePathNode.getAction(node)),
+                            String.valueOf(ActionablePathNode.invasion$getAction(node)),
                             node.x + 0.5, node.y + 0.75 + 0.2, node.z + 0.5,
                             CommonColors.WHITE, 0.02F, true, 0, true
                     );

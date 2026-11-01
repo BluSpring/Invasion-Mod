@@ -84,7 +84,7 @@ public class IMLandPathNodeMaker extends WalkNodeEvaluator implements DynamicPat
 
     @Override
     public Node getNode(int x, int y, int z, PathAction action) {
-        return ActionablePathNode.setAction(getNode(x, y, z), action);
+        return ActionablePathNode.invasion$setAction(getNode(x, y, z), action);
     }
 
     @Override
@@ -95,7 +95,7 @@ public class IMLandPathNodeMaker extends WalkNodeEvaluator implements DynamicPat
     @Override
     public int getNeighbors(Node[] successors, Node node) {
         previousNodePosition = node.asBlockPos();
-        previousNodeAction = ActionablePathNode.getAction(node);
+        previousNodeAction = ActionablePathNode.invasion$getAction(node);
         int index = getSuccessors(super.getNeighbors(successors, node), successors, node, currentContext.level(), this);
         if (Debug.DEBUG_PATHFINDING) {
             for (int i = 0; i < index; i++) {
@@ -135,7 +135,7 @@ public class IMLandPathNodeMaker extends WalkNodeEvaluator implements DynamicPat
     }
 
     protected boolean isValidVerticalSuccessor(@Nullable Node node, Node successor, Direction direction) {
-        return node != null && !node.closed && node.costMalus != 0 && ActionablePathNode.getAction(node) != PathAction.NONE;
+        return node != null && !node.closed && node.costMalus != 0 && ActionablePathNode.invasion$getAction(node) != PathAction.NONE;
     }
 
     @Override
@@ -154,11 +154,11 @@ public class IMLandPathNodeMaker extends WalkNodeEvaluator implements DynamicPat
     @Override
     protected boolean isDiagonalValid(Node xNode, @Nullable Node zNode, @Nullable Node xDiagNode) {
         return super.isDiagonalValid(xNode, zNode, xDiagNode)
-                && (ActionablePathNode.getAction(xNode) != PathAction.DIG || ActionablePathNode.getAction(zNode) != PathAction.DIG);
+                && (ActionablePathNode.invasion$getAction(xNode) != PathAction.DIG || ActionablePathNode.invasion$getAction(zNode) != PathAction.DIG);
     }
 
     protected boolean isNoActionNode(Node node) {
-        return node != null && ActionablePathNode.getAction(node) == PathAction.NONE;
+        return node != null && ActionablePathNode.invasion$getAction(node) == PathAction.NONE;
     }
 
     @Nullable
@@ -172,7 +172,7 @@ public class IMLandPathNodeMaker extends WalkNodeEvaluator implements DynamicPat
             if (canMineBlock(currentContext.level(), pos, state) && !currentContext.getBlockState(pos.above()).isPathfindable(PathComputationType.LAND)) {
                 node.type = PathType.WALKABLE;
                 node.costMalus = getBlockStrength(pos, state);
-                return ActionablePathNode.setAction(node, PathAction.DIG);
+                return ActionablePathNode.invasion$setAction(node, PathAction.DIG);
             }
         }
 
@@ -188,14 +188,14 @@ public class IMLandPathNodeMaker extends WalkNodeEvaluator implements DynamicPat
             BlockPos pos = new BlockPos(x, y, z);
 
             if (canClimb && PathingUtil.isLadder(mob.level().getBlockState(pos))) {
-                ActionablePathNode.setAction(node, previousNodeAction.getType() == PathAction.Type.CLIMB ? previousNodeAction
+                ActionablePathNode.invasion$setAction(node, previousNodeAction.getType() == PathAction.Type.CLIMB ? previousNodeAction
                             : PathAction.getClimbing(direction.getAxis().isVertical() ? direction
                             : node.y < (int)feetY ? Direction.DOWN
                             : Direction.UP
                 ));
             }
 
-            if (direction == Direction.DOWN && canDigDown && ActionablePathNode.getAction(node) == PathAction.NONE) {
+            if (direction == Direction.DOWN && canDigDown && ActionablePathNode.invasion$getAction(node) == PathAction.NONE) {
                 BlockState nextState = mob.level().getBlockState(pos);
                 boolean isDiggable = canDigDown && direction == Direction.DOWN && canMineBlock(mob.level(), pos, nextState);
 
@@ -209,7 +209,7 @@ public class IMLandPathNodeMaker extends WalkNodeEvaluator implements DynamicPat
                     }
                     if (gapHeight > 0 && gapHeight <= magDropHeight) {
                         node.costMalus = getBlockStrength(pos, nextState);
-                        ActionablePathNode.setAction(node, PathAction.DIG);
+                        ActionablePathNode.invasion$setAction(node, PathAction.DIG);
                     }
                 }
             }

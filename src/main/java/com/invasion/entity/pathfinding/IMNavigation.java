@@ -102,7 +102,7 @@ public class IMNavigation implements Navigation {
 
     @Override
     public PathAction getCurrentWorkingAction() {
-	    return !nodeActionFinished && !isDone() ? ActionablePathNode.getAction(activeNode) : PathAction.NONE;
+	    return !nodeActionFinished && !isDone() ? ActionablePathNode.invasion$getAction(activeNode) : PathAction.NONE;
 	}
 
 	protected boolean isMaintainingPos() {
@@ -376,13 +376,13 @@ public class IMNavigation implements Navigation {
 
 			boolean canConsolidate = true;
 			int prevIndex = maxNextLegIndex - 2;
-			if (prevIndex >= 0 && ActionablePathNode.getAction(path.getNode(prevIndex)) != PathAction.NONE) {
+			if (prevIndex >= 0 && ActionablePathNode.invasion$getAction(path.getNode(prevIndex)) != PathAction.NONE) {
 				canConsolidate = false;
 			}
 			if (canConsolidate && actor.canStandAt(theEntity.level(), theEntity.blockPosition())) {
 				while (maxNextLegIndex < path.getNodeCount() - 1
 				        && path.getNode(maxNextLegIndex).y == (int) pos.y
-				        && ActionablePathNode.getAction(path.getNode(maxNextLegIndex)) == PathAction.NONE) {
+				        && ActionablePathNode.invasion$getAction(path.getNode(maxNextLegIndex)) == PathAction.NONE) {
 					maxNextLegIndex++;
 				}
 			}
@@ -407,7 +407,7 @@ public class IMNavigation implements Navigation {
 		}
 
 		for (int i = path.getNextNodeIndex() + 1; i < maxNextLegIndex; i++) {
-			if (ActionablePathNode.getAction(path.getNode(i)) != PathAction.NONE) {
+			if (ActionablePathNode.invasion$getAction(path.getNode(i)) != PathAction.NONE) {
 			    maxNextLegIndex = i;
 				break;
 			}

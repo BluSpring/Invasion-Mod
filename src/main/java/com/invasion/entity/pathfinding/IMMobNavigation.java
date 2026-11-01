@@ -99,7 +99,7 @@ public class IMMobNavigation extends GroundPathNavigation implements Navigation 
 
     @Override
     public PathAction getCurrentWorkingAction() {
-	    return isDone() || !(path.getNextNode() instanceof ActionablePathNode node) ? PathAction.NONE : node.getAction();
+	    return isDone() || !(path.getNextNode() instanceof ActionablePathNode node) ? PathAction.NONE : node.invasion$getAction();
 	}
 
     @Override
@@ -154,7 +154,7 @@ public class IMMobNavigation extends GroundPathNavigation implements Navigation 
                 if (!isDone()
                         && !path.isDone()
                         && path.getNextNodeIndex() < path.getNodeCount() - 1
-                        && ActionablePathNode.getAction(path.getNode(path.getNextNodeIndex() + 1)) == PathAction.NONE
+                        && ActionablePathNode.invasion$getAction(path.getNode(path.getNextNodeIndex() + 1)) == PathAction.NONE
                 ) {
                     Vec3 currentPos = path.getNextNode().asVec3();
                     Vec3 nextPos = path.getEntityPosAtNode(mob, path.getNextNodeIndex() + 1);

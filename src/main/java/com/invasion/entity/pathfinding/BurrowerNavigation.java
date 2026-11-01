@@ -186,7 +186,7 @@ public class BurrowerNavigation extends AbstractParametricNavigator {
             activeNode = path.getNode(0);
             prevNode = activeNode;
             nextNode = path.getNode(1);
-            if (ActionablePathNode.getAction(activeNode) != PathAction.NONE) {
+            if (ActionablePathNode.invasion$getAction(activeNode) != PathAction.NONE) {
                 nodeActionFinished = false;
             }
             for (int i = 0; i < segmentPathIndices.length; i++) {
@@ -228,7 +228,7 @@ public class BurrowerNavigation extends AbstractParametricNavigator {
             activeNode = path.getNode(0);
             prevNode = activeNode;
             nextNode = path.getNode(1);
-            if (ActionablePathNode.getAction(activeNode) != PathAction.NONE) {
+            if (ActionablePathNode.invasion$getAction(activeNode) != PathAction.NONE) {
                 nodeActionFinished = false;
             }
             for (int i = 0; i < segmentPathIndices.length; i++) {

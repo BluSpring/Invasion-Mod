@@ -139,7 +139,7 @@ public class BuilderIMMobNavigation extends IMMobNavigation {
             world = currentContext.level();
 
             BlockState block = world.getBlockState(nextNode.asBlockPos());
-            PathAction action = ActionablePathNode.getAction(nextNode);
+            PathAction action = ActionablePathNode.invasion$getAction(nextNode);
             float materialMultiplier = !block.isAir() && canBuildOnBlock(world, nextNode.asBlockPos()) ? 3.2F : 1;
 
             if (action.getType() == PathAction.Type.BRIDGE) {
@@ -197,12 +197,12 @@ public class BuilderIMMobNavigation extends IMMobNavigation {
 
             Node node = super.findAcceptedNode(x, y, z, maxYStep, feetY, direction, nodeType);
 
-            if (isScaffoldPosition && ActionablePathNode.getAction(node) == PathAction.NONE) {
+            if (isScaffoldPosition && ActionablePathNode.invasion$getAction(node) == PathAction.NONE) {
                 return ActionablePathNode.setActionIfNotPresent(node, PathAction.SCAFFOLD_UP);
             }
 
-            boolean isNoAction = ActionablePathNode.getAction(node) == PathAction.NONE;
-            boolean isClimb = ActionablePathNode.getAction(node).getType() == PathAction.Type.CLIMB;
+            boolean isNoAction = ActionablePathNode.invasion$getAction(node) == PathAction.NONE;
+            boolean isClimb = ActionablePathNode.invasion$getAction(node).getType() == PathAction.Type.CLIMB;
 
             if (isNoAction && isHorizontal) {
 
@@ -288,14 +288,14 @@ public class BuilderIMMobNavigation extends IMMobNavigation {
             Node node = getNode(x, y, z);
             node.type = PathType.WALKABLE;
             node.costMalus = 1.5F;
-            return ActionablePathNode.setAction(node, PathAction.BRIDGE);
+            return ActionablePathNode.invasion$setAction(node, PathAction.BRIDGE);
         }
 
         private Node getLadderNode(int x, int y, int z, PathAction action, float penalty) {
             Node node = getNode(x, y, z);
             node.type = PathType.WALKABLE;
             node.costMalus = penalty;
-            return ActionablePathNode.setAction(node, action);
+            return ActionablePathNode.invasion$setAction(node, action);
         }
 
         private boolean isBridgableGap(CollisionGetter world, BlockPos.MutableBlockPos mutable, int height) {

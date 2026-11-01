@@ -9,27 +9,27 @@ import net.minecraft.world.level.pathfinder.Node;
 import net.minecraft.world.level.pathfinder.Path;
 
 public interface ActionablePathNode {
-    PathAction getAction();
+    PathAction invasion$getAction();
 
-    void setAction(PathAction action);
+    void invasion$setAction(PathAction invasion$action);
 
-    static PathAction getAction(@Nullable Node node) {
-        return node instanceof ActionablePathNode a ? a.getAction() : PathAction.NONE;
+    static PathAction invasion$getAction(@Nullable Node node) {
+        return node instanceof ActionablePathNode a ? a.invasion$getAction() : PathAction.NONE;
     }
 
     static @Nullable Node setActionIfNotPresent(@Nullable Node node, PathAction action) {
-        return getAction(node) == PathAction.NONE ? setAction(node, action) : node;
+        return invasion$getAction(node) == PathAction.NONE ? invasion$setAction(node, action) : node;
     }
 
-    static @Nullable Node setAction(@Nullable Node node, PathAction action) {
+    static @Nullable Node invasion$setAction(@Nullable Node node, PathAction action) {
         if (node instanceof ActionablePathNode a) {
-            a.setAction(action);
+            a.invasion$setAction(action);
         }
         return node;
     }
 
     static Path combine(Path path1, Path path2, int lowerBoundP1, int upperBoundP1) {
-        List<net.minecraft.world.level.pathfinder.Node> newNodes = new ArrayList<>();
+        List<Node> newNodes = new ArrayList<>();
         for (int i = lowerBoundP1; i < upperBoundP1; i++) {
             newNodes.add(path1.getNode(i));
         }
