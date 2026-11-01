@@ -102,7 +102,7 @@ public class IMNavigation implements Navigation {
 
     @Override
     public PathAction getCurrentWorkingAction() {
-	    return !nodeActionFinished && !isIdle() ? ActionablePathNode.getAction(activeNode) : PathAction.NONE;
+	    return !nodeActionFinished && !isDone() ? ActionablePathNode.getAction(activeNode) : PathAction.NONE;
 	}
 
 	protected boolean isMaintainingPos() {
@@ -242,7 +242,7 @@ public class IMNavigation implements Navigation {
 			updateAutoPathToEntity();
 		}
 
-		if (isIdle()) {
+		if (isDone()) {
 			noPathFollow();
 			return;
 		}
@@ -265,7 +265,7 @@ public class IMNavigation implements Navigation {
 
 			int pathIndex = path.getNextNodeIndex();
 			pathFollow();
-			if (isIdle()) {
+			if (isDone()) {
 				return;
 			}
 			if (path.getNextNodeIndex() != pathIndex) {
@@ -319,7 +319,7 @@ public class IMNavigation implements Navigation {
 	}
 
     @Override
-    public boolean isIdle() {
+    public boolean isDone() {
 		return path == null || path.isDone();
 	}
 
@@ -330,7 +330,7 @@ public class IMNavigation implements Navigation {
 
     @Override
     public float getLastPathDistanceToTarget() {
-		if (isIdle()) {
+		if (isDone()) {
 			if (path != null && path.getTarget() != null) {
 				return Mth.sqrt((float) theEntity.blockPosition().distSqr(path.getTarget()));
 			}
@@ -422,7 +422,7 @@ public class IMNavigation implements Navigation {
 	}
 
 	protected void updateAutoPathToEntity() {
-		if (pathEndEntity != null && (isIdle() || (pathEndEntity.position().distanceTo(pathEndEntityLastPos) / (6 + theEntity.position().distanceTo(pathEndEntityLastPos)) > 0.1D))) {
+		if (pathEndEntity != null && (isDone() || (pathEndEntity.position().distanceTo(pathEndEntityLastPos) / (6 + theEntity.position().distanceTo(pathEndEntityLastPos)) > 0.1D))) {
 			Path newPath = this.findPathTo(pathEndEntity, theEntity.getSenseRange());
 			if (newPath != null && startMovingAlong(newPath, moveSpeed)) {
 				pathEndEntityLastPos = pathEndEntity.position();

@@ -170,7 +170,7 @@ public class BurrowerNavigation extends AbstractParametricNavigator {
     }
 
     @Override
-    public boolean isIdle() {
+    public boolean isDone() {
         return path == null || path.getNextNodeIndex() >= path.getNodeCount() - 2;
     }
 

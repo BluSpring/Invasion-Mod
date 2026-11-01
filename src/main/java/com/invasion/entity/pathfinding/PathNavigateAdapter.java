@@ -1,12 +1,12 @@
 package com.invasion.entity.pathfinding;
 
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.pathfinder.NodeEvaluator;
 import net.minecraft.world.level.pathfinder.PathFinder;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.level.Level;
 
 @Deprecated
 public class PathNavigateAdapter extends PathNavigation {
@@ -33,7 +33,7 @@ public class PathNavigateAdapter extends PathNavigation {
 
     @Override
     public boolean isDone() {
-        return navigator.isIdle();
+        return navigator.isDone();
     }
 
     @Override

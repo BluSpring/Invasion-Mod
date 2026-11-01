@@ -157,14 +157,14 @@ public class BlockMetadata {
         switch (BlockSpecial.of(state)) {
             case CONSTRUCTION_BRICKS:
                 for (Direction direction : Direction.values()) {
-                    if (world.getBlockState(mutable.set(pos).move(direction)).isOf(state.getBlock())) {
+                    if (world.getBlockState(mutable.set(pos).move(direction)).is(state.getBlock())) {
                         bonus++;
                     }
                 }
                 break;
             case CONSTRUCTION_STONE:
                 for (Direction direction : Direction.values()) {
-                    if (world.getBlockState(mutable.set(pos).move(direction)).isIn(InvTags.Blocks.STONE_CONSTRUCTION_BONUS_MATERIALS)) {
+                    if (world.getBlockState(mutable.set(pos).move(direction)).is(InvTags.Blocks.STONE_CONSTRUCTION_BONUS_MATERIALS)) {
                         bonus++;
                     }
                 }
@@ -184,7 +184,7 @@ public class BlockMetadata {
 
         @SuppressWarnings("deprecation")
         public Lookup<T> put(TagKey<Block> tag, T value) {
-            entries.add(new Entry<>(b -> b.getRegistryEntry().isIn(tag), value));
+            entries.add(new Entry<>(b -> b.builtInRegistryHolder().is(tag), value));
             return this;
         }
 

@@ -21,7 +21,7 @@ public interface Navigation extends Notifiable, HasAiGoals {
 
     Status getLastActionResult();
 
-    boolean isIdle();
+    boolean isDone();
 
     int getStuckTime();
 

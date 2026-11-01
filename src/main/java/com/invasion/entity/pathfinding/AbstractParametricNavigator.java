@@ -16,7 +16,7 @@ public abstract class AbstractParametricNavigator extends IMNavigation {
     @Override
     public void tick() {
         totalTicks++;
-        if (isIdle() || waitingForNotify) {
+        if (isDone() || waitingForNotify) {
             return;
         }
         if (nodeActionFinished) {
