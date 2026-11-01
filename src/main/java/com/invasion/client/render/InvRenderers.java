@@ -41,7 +41,7 @@ public interface InvRenderers {
         EntityRendererRegistry.register(InvEntities.VULTURE, RenderGiantBird::new);
 
         ItemProperties.register(InvItems.SEARING_BOW, ResourceLocation.withDefaultNamespace("pull"), (stack, world, entity, seed) -> {
-            return entity == null || entity.getUseItem() != stack ? 0.0F : (stack.getUseDuration(entity) - entity.getUseItemRemainingTicks()) / 20F;
+            return entity == null || entity.getUseItem() != stack ? 0.0F : ((stack.getUseDuration(entity) - entity.getUseItemRemainingTicks()) / 20F) / 2.5f;
         });
         ItemProperties.register(InvItems.SEARING_BOW, ResourceLocation.withDefaultNamespace("pulling"),
             (stack, world, entity, seed) -> entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1 : 0

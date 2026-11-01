@@ -28,23 +28,31 @@
     "overrides": [
         {
             "predicate": {
-                "pulling": 1
+                "pulling": 1,
+                "pull": 0
             },
             "model": "invmod:item/searing_bow_pulling_0"
         },
         {
             "predicate": {
                 "pulling": 1,
-                "pull": 0.65
+                "pull": 0.26
             },
             "model": "invmod:item/searing_bow_pulling_1"
         },
         {
             "predicate": {
                 "pulling": 1,
-                "pull": 0.9
+                "pull": 0.36
             },
             "model": "invmod:item/searing_bow_pulling_2"
+        },
+        {
+            "predicate": {
+                "pulling": 1,
+                "pull": 1
+            },
+            "model": "invmod:item/searing_bow_pulling_3"
         }
     ]
 }
